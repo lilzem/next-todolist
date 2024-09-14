@@ -6,6 +6,7 @@ import prisma from "@/lib/db";
 import { Container } from "./container";
 import { Todo } from "./todo";
 import { ScrollArea } from "../ui";
+import { Todo as TodoModel } from "@prisma/client";
 
 interface TodolistProps {
     className?: string;
@@ -13,8 +14,6 @@ interface TodolistProps {
 
 export const Todolist: FC<TodolistProps> = async ({ className }) => {
     const todos = await prisma.todo.findMany();
-
-    console.log(todos);
 
     return (
         <Container
@@ -24,7 +23,7 @@ export const Todolist: FC<TodolistProps> = async ({ className }) => {
             )}
         >
             <ScrollArea className="h-[100%] w-[100%] pr-5">
-                {todos.map((todo) => (
+                {todos.map((todo: TodoModel) => (
                     <Todo
                         id={todo.id}
                         key={todo.id}
