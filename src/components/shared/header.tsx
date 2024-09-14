@@ -1,21 +1,27 @@
+"use client";
+
 import { FC } from "react";
 import {
     LoginLink,
+    LogoutLink,
     RegisterLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import Image from "next/image";
 
 import { Container } from "./container";
-import { Button } from "../ui";
+import { Button, Spinner } from "../ui";
 
 import { cn } from "@/lib/utils";
 import { Title } from "./title";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 interface HeaderProps {
     className?: string;
 }
 
 export const Header: FC<HeaderProps> = ({ className }) => {
+    const { user, isAuthenticated, isLoading } = useKindeBrowserClient();
+
     return (
         <header className={cn("border-b", className)}>
             <Container className="flex items-center justify-between py-8 px-3">
@@ -27,17 +33,48 @@ export const Header: FC<HeaderProps> = ({ className }) => {
                         text="Next-TodoList"
                     />
                 </div>
+                {isAuthenticated ? (
+                    <div className="flex justify-between items-center gap-4">
+                        {user?.picture ? (
+                            <Image
+                                src={user?.picture}
+                                alt="Profile picture"
+                                width={50}
+                                height={50}
+                                className="rounded-full"
+                            />
+                        ) : (
+                            <div className="h-7 w-7 rounded-full bg-zinc-800 text-xs flex justify-center items-center">
+                                {user?.given_name?.[0]}
+                            </div>
+                        )}
 
-                <div className="flex justify-between itemc-center gap-4">
-                    <LoginLink>
-                        <Button className="text-lg">Login</Button>
-                    </LoginLink>
-                    <RegisterLink>
-                        <Button variant="outline" className="text-lg">
-                            Register
-                        </Button>
-                    </RegisterLink>
-                </div>
+                        {user?.email && (
+                            <Title
+                                className="text-left max-w-[200px]"
+                                size="xs"
+                                text={`Logged in as ${user?.email}`}
+                            />
+                        )}
+
+                        <LogoutLink>
+                            <Button className="text-lg">Logout</Button>
+                        </LogoutLink>
+                    </div>
+                ) : isLoading ? (
+                    <Spinner />
+                ) : (
+                    <div className="flex justify-between itemc-center gap-4">
+                        <LoginLink>
+                            <Button className="text-lg">Login</Button>
+                        </LoginLink>
+                        <RegisterLink>
+                            <Button variant="outline" className="text-lg">
+                                Register
+                            </Button>
+                        </RegisterLink>
+                    </div>
+                )}
             </Container>
         </header>
     );

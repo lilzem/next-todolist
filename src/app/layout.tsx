@@ -24,8 +24,8 @@ export default function RootLayout({
             <body className={nunito.className}>
                 <Header />
 
-                <main className="h-[calc(100vh-101px)] flex justify-center items-center">
-                    <Container>{children}</Container>
+                <main className="h-[calc(100vh-110px)] flex justify-center items-center">
+                    <Container className="w-[100%]">{children}</Container>
                 </main>
             </body>
         </html>
