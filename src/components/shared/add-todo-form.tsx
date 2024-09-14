@@ -1,11 +1,9 @@
 import { FC } from "react";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 import { cn } from "@/lib/utils";
 
 import { Button, Input } from "../ui";
 import { addTodo } from "@/actions/actions";
-import { useFormState } from "react-dom";
 
 interface AddTodoFormProps {
     className?: string;
