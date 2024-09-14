@@ -6,7 +6,7 @@ import prisma from "@/lib/db";
 import { Container } from "./container";
 import { Todo } from "./todo";
 import { ScrollArea } from "../ui";
-import { Todo as TodoModel } from "@prisma/client";
+import { Todo as TodoModel } from "../../../prisma/generated/client";
 
 interface TodolistProps {
     className?: string;
