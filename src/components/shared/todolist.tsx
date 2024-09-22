@@ -23,13 +23,10 @@ export const Todolist: FC<TodolistProps> = async ({ className }) => {
     const user = await getUser();
 
     const todos = await (
-        await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/todos/${user.id}`,
-            {
-                method: "GET",
-                cache: "no-store", // This would ensure fresh data on every request,
-            }
-        )
+        await fetch(`${process.env.KINDE_SITE_URL}/api/todos/${user.id}`, {
+            method: "GET",
+            cache: "no-store", // This would ensure fresh data on every request,
+        })
     ).json();
 
     return (
