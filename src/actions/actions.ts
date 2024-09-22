@@ -42,9 +42,7 @@ export async function addTodo(formData: FormData) {
 
         revalidatePath("/");
     } catch (error) {
-        console.error("Error adding todo:", error);
-        //@ts-ignore
-        throw new Error(`Failed to add todo: ${error.message}`);
+        throw new Error(`Failed to add todo: ${error}`);
     }
 }
 
