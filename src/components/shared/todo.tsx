@@ -17,7 +17,7 @@ export const Todo: FC<TodoProps> = ({ className, text, completed, id }) => {
     return (
         <div
             className={cn(
-                "px-1 py-3 flex border-b-2 justify-between",
+                "px-1 py-5 flex border-b-2 justify-between",
                 className
             )}
         >

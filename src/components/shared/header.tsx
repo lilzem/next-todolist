@@ -33,7 +33,7 @@ export const Header: FC<HeaderProps> = ({ className }) => {
                         text="Next-TodoList"
                     />
                 </div>
-                {isAuthenticated ? (
+                {/* {isAuthenticated ? (
                     <div className="flex justify-between items-center gap-4">
                         {user?.picture ? (
                             <Image
@@ -74,7 +74,52 @@ export const Header: FC<HeaderProps> = ({ className }) => {
                             </Button>
                         </RegisterLink>
                     </div>
-                )}
+                )} */}
+
+                <div className="flex justify-between items-center gap-4 min-w-[300px]">
+                    {isAuthenticated ? (
+                        <>
+                            {user?.picture ? (
+                                <Image
+                                    src={user?.picture}
+                                    alt="Profile picture"
+                                    width={50}
+                                    height={50}
+                                    className="rounded-full"
+                                />
+                            ) : (
+                                <div className="h-7 w-7 rounded-full bg-zinc-800 text-xs flex justify-center items-center">
+                                    {user?.given_name?.[0]}
+                                </div>
+                            )}
+
+                            {user?.email && (
+                                <Title
+                                    className="text-left max-w-[200px]"
+                                    size="xs"
+                                    text={`Logged in as ${user?.email}`}
+                                />
+                            )}
+
+                            <LogoutLink>
+                                <Button className="text-lg">Logout</Button>
+                            </LogoutLink>
+                        </>
+                    ) : isLoading ? (
+                        <Spinner />
+                    ) : (
+                        <>
+                            <LoginLink>
+                                <Button className="text-lg">Login</Button>
+                            </LoginLink>
+                            <RegisterLink>
+                                <Button variant="outline" className="text-lg">
+                                    Register
+                                </Button>
+                            </RegisterLink>
+                        </>
+                    )}
+                </div>
             </Container>
         </header>
     );

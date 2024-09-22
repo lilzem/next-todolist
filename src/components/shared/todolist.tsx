@@ -1,25 +1,40 @@
 import { FC } from "react";
 
 import { cn } from "@/lib/utils";
-import prisma from "@/lib/db";
 
 import { Container } from "./container";
 import { Todo } from "./todo";
 import { ScrollArea } from "../ui";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { redirect } from "next/navigation";
 
 interface TodolistProps {
     className?: string;
 }
 
 export const Todolist: FC<TodolistProps> = async ({ className }) => {
-    const todos = await prisma.todo.findMany();
+    const { isAuthenticated, getUser } = getKindeServerSession();
+    const isLoggedIn = await isAuthenticated();
+
+    if (!isLoggedIn) {
+        redirect("/api/auth/login");
+    }
+
+    const user = await getUser();
+
+    const todos = await (
+        await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/todos/${user.id}`,
+            {
+                method: "GET",
+                cache: "no-store", // This would ensure fresh data on every request,
+            }
+        )
+    ).json();
 
     return (
         <Container
-            className={cn(
-                "pl-10 pr-5 py-5 max-h-[400px] flex-1 gap-5",
-                className
-            )}
+            className={cn("pl-10 pr-5 py-5 max-h-[600px] flex-1", className)}
         >
             <ScrollArea className="h-[100%] w-[100%] pr-5">
                 {todos.map((todo: any) => (
