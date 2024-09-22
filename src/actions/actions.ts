@@ -40,8 +40,6 @@ export async function addTodo(formData: FormData) {
             throw new Error(`Failed to add todo: ${errorText}`);
         }
 
-        const data = await response.json();
-
         revalidatePath("/");
     } catch (error) {
         console.error("Error adding todo:", error);
